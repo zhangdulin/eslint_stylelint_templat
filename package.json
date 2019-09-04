@@ -57,6 +57,9 @@
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0"
   },
+  "peerDependencies": {
+    "eslint": "^6.2.2 || ^6.0.0"
+  },
   "eslintConfig": {
     "extends": [
       "stylelint",
