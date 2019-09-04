@@ -33,11 +33,11 @@ module.exports = {
   // https://eslint.vuejs.org/rules/
   // it is base on https://github.com/vuejs/eslint-config-vue
   rules: {
+	 // 属性规则
     'vue/max-attributes-per-line': [
-      // 属性规则
       2,
       {
-        singleline: 10,
+        singleline: 1,
         multiline: {
           max: 1,
           allowFirstLine: false

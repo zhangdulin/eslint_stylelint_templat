@@ -57,6 +57,12 @@
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0"
   },
+  "eslintConfig": {
+    "extends": [
+      "stylelint",
+	  "eslint"
+    ]
+  },
   "browserslist": [
     "> 0.5%",
     "last 2 versions"
