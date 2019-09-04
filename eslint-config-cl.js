@@ -22,11 +22,19 @@ module.exports = {
     'plugin:prettier/recommended',
     'eslint:recommended'
   ],
+
+  // 启用的规则及其各自的错误级别：
+  // 'off' | 0    - 关闭规则
+  // 'warn' | 1   - 开启规则，使用警告级别的错误：warn (不会导致程序退出)
+  // 'error' | 2  - 开启规则，使用错误级别的错误：error (当被触发的时候，程序会退出)
+
   // add your custom rules here
   // https://eslint.org/docs/rules/
+  // https://eslint.vuejs.org/rules/
   // it is base on https://github.com/vuejs/eslint-config-vue
   rules: {
     'vue/max-attributes-per-line': [
+      // 属性规则
       2,
       {
         singleline: 10,
@@ -36,42 +44,57 @@ module.exports = {
         }
       }
     ],
+    // 允许 v-if v-for同一个dom同时出现
     'vue/no-use-v-if-with-v-for': [
       'error',
       {
         allowUsingIterationVar: true
       }
     ],
-    'vue/singleline-html-element-content-newline': 'off',
-    'vue/multiline-html-element-content-newline': 'off',
-    'vue/name-property-casing': ['error', 'PascalCase'],
-    'vue/no-v-html': 'off',
+    // html单行规则
+    'vue/multiline-html-element-content-newline': [
+      'error',
+      {
+        ignoreWhenEmpty: true,
+        ignores: ['pre', 'textarea', ...INLINE_ELEMENTS],
+        allowEmptyLines: false
+      }
+    ],
+    // html多行规则
+    'vue/singleline-html-element-content-newline': [
+      'error',
+      {
+        ignoreWhenNoAttributes: true,
+        ignoreWhenEmpty: true,
+        ignores: ['pre', 'textarea', ...INLINE_ELEMENTS]
+      }
+    ],
+    'vue/name-property-casing': ['error', 'PascalCase'], // .vue name 大驼峰
+    'vue/no-v-html': 'off', // 关闭 此规则报告v-html指令的所有用法，以降低将可能不安全/未转义的html注入浏览器导致跨站点脚本（XSS）攻击的风险
 
-    // 'object-curly-spacing': [2, 'always', { objectsInObjects: false }],
-    // 'array-bracket-spacing': [2, 'never'],
     'accessor-pairs': 2, // 强制 getter 和 setter 在对象中成对出现
+    // 强制箭头函数的箭头前后使用一致的空格
     'arrow-spacing': [
       2,
       {
-        // 强制箭头函数的箭头前后使用一致的空格
         before: true,
         after: true
       }
     ],
     'block-spacing': [2, 'always'], // 禁止或强制在左花括号和同一行上的下一个 token 之间有一致的空格
+    // 强制在代码块中使用一致的大括号风格 1tbs|stroustrup（if-else中的else语句，连同catch 和 finally，都必须在右括号后另起一行）|allman
     'brace-style': [
       2,
       '1tbs',
       {
-        // 强制在代码块中使用一致的大括号风格 1tbs|stroustrup（if-else中的else语句，连同catch 和 finally，都必须在右括号后另起一行）|allman
         allowSingleLine: true // 允许块的开括号和闭括号在 同一行
       }
     ],
     'comma-dangle': [2, 'never'], // 要求或禁止末尾逗号 never|always|always-multiline
+    // 强制在逗号前后使用一致的空格
     'comma-spacing': [
       2,
       {
-        // 强制在逗号前后使用一致的空格
         before: false,
         after: true
       }
@@ -82,44 +105,44 @@ module.exports = {
     'dot-location': [2, 'property'], // 强制在点号之前和之后一致的换行
     'eol-last': 2, // 在文件末尾要求或禁止换行
     eqeqeq: [0, 'always', { null: 'ignore' }], // 使用 === 和 !== 或 使用==
+    // 强制 generator 函数中 * 号周围使用一致的空格
     'generator-star-spacing': [
       2,
       {
-        // 强制 generator 函数中 * 号周围使用一致的空格
         before: true,
         after: true
       }
     ],
     'handle-callback-err': [2, '^(err|error)$'], // 要求回调函数中有容错处理
+    // 强制使用一致的缩进
     indent: [
       2,
       2,
       {
-        // 强制使用一致的缩进
         SwitchCase: 1
       }
     ],
     'jsx-quotes': [2, 'prefer-single'], // 强制在 JSX 属性中一致地使用双引号或单引号
+    // 强制在对象字面量的属性中键和值之间使用一致的间距
     'key-spacing': [
       2,
       {
-        // 强制在对象字面量的属性中键和值之间使用一致的间距
         beforeColon: false,
         afterColon: true
       }
     ],
+    // 强制在关键字前后使用一致的空格
     'keyword-spacing': [
       2,
       {
-        // 强制在关键字前后使用一致的空格
         before: true,
         after: true
       }
     ],
+    // 要求构造函数首字母大写
     'new-cap': [
       2,
       {
-        // 要求构造函数首字母大写
         newIsCap: true,
         capIsNew: false
       }
@@ -154,10 +177,10 @@ module.exports = {
     'no-irregular-whitespace': 2, // 禁止在字符串和注释之外不规则的空白
     'no-iterator': 2, // 禁用 __iterator__ 属性
     'no-label-var': 2, // 不允许标签与变量同名
+    // 禁用标签语句
     'no-labels': [
       2,
       {
-        // 禁用标签语句
         allowLoop: false,
         allowSwitch: false
       }
@@ -166,10 +189,10 @@ module.exports = {
     'no-mixed-spaces-and-tabs': 2, // 禁止空格和 tab 的混合缩进
     'no-multi-spaces': 2, // 禁止使用多个空格
     'no-multi-str': 2, // 禁止使用多行字符串
+    // 禁止出现多行空行
     'no-multiple-empty-lines': [
       2,
       {
-        // 禁止出现多行空行
         max: 1
       }
     ],
@@ -200,8 +223,8 @@ module.exports = {
     'no-undef-init': 2, // 禁止将变量初始化为 undefined
     'no-unexpected-multiline': 2, // 禁止出现令人困惑的多行表达式
     'no-unmodified-loop-condition': 2, // 禁用一成不变的循环条件
+    // 禁止可以在有更简单的可替代的表达式时使用三元操作符
     'no-unneeded-ternary': [
-      // 禁止可以在有更简单的可替代的表达式时使用三元操作符
       2,
       {
         defaultAssignment: false
@@ -209,10 +232,10 @@ module.exports = {
     ],
     'no-unreachable': 2, // 禁止在return、throw、continue 和 break 语句之后出现不可达代码
     'no-unsafe-finally': 2, // 禁止在 finally 语句块中出现控制流语句
+    // 禁止出现未使用过的变量
     'no-unused-vars': [
       2,
       {
-        // 禁止出现未使用过的变量
         vars: 'all', // 检测所有变量，包括全局环境中的变量
         args: 'none', // 参数可以不使用
         varsIgnorePattern: 'Page' // 不需要检测的变量：变量名称匹配正则模式
@@ -224,19 +247,19 @@ module.exports = {
     'no-useless-escape': 0, // 禁用不必要的转义字符
     'no-whitespace-before-property': 2, // 禁止属性前有空白
     'no-with': 2, // 禁用 with 语句
+    // 强制函数中的变量在一起声明或分开声明 always|never|consecutive
     'one-var': [
-      // 强制函数中的变量在一起声明或分开声明 always|never|consecutive
       2,
       {
         initialized: 'never' // 要求每个作用域的初始化的变量有多个变量声明
         // 'uninitialized': 'consecutive' // 对未初始化的变量，要求其连续的变量声明合并为一个声明
       }
     ],
+    // 强制操作符使用一致的换行符风格 after|before|none
     'operator-linebreak': [
       2,
       'after',
       {
-        // 强制操作符使用一致的换行符风格 after|before|none
         overrides: {
           // 盖对指定的操作的全局设置
           '?': 'before',
@@ -247,27 +270,27 @@ module.exports = {
       }
     ],
     'padded-blocks': [2, 'never'], // 禁止或要求块内填充 never|always
+    // 强制属性名称为驼峰风格
     camelcase: [
-      // 强制属性名称为驼峰风格
       1,
       {
         properties: 'always'
       }
     ],
+    // 强制使用一致的反勾号、双引号或单引号
     quotes: [
       2,
       'single',
       {
-        // 强制使用一致的反勾号、双引号或单引号
         avoidEscape: true, // 允许字符串使用单引号或双引号，只要字符串中包含了一个其它引号，否则需要转义
         allowTemplateLiterals: true // 允许字符串使用反勾号
       }
     ],
     semi: [0, 'never'], // 可以用分号 要求或禁止使用分号代替 ASI (always|never)
+    // 强制分号之前和之后使用一致的空格。 false: 禁止有空格 | true: 强制有空格
     'semi-spacing': [
       2,
       {
-        // 强制分号之前和之后使用一致的空格。 false: 禁止有空格 | true: 强制有空格
         before: false,
         after: true
       }
@@ -276,19 +299,19 @@ module.exports = {
     'space-before-function-paren': [2, 'never'], // 强制在 function的左括号之前使用一致的空格
     'space-in-parens': [2, 'never'], // 强制在圆括号内使用一致的空格
     'space-infix-ops': 2, // 要求操作符周围有空格
+    // 要求或禁止在一元操作符之前或之后存在空格
     'space-unary-ops': [
       2,
       {
-        // 要求或禁止在一元操作符之前或之后存在空格
         words: true, // 适用于单词类一元操作符，例如：new、delete、typeof、void、yield
         nonwords: false // 适用于这些一元操作符: -、+、--、++、!、!!
       }
     ],
+    // 强制在注释中 // 或 /* 使用一致的空格
     'spaced-comment': [
       2,
       'always',
       {
-        // 强制在注释中 // 或 /* 使用一致的空格
         markers: [
           'global',
           'globals',
@@ -308,11 +331,11 @@ module.exports = {
     yoda: [2, 'never'], // 要求或禁止 Yoda条件（在条件判断中字面量在先而变量在第二的位置）
     'prefer-const': 2, // 要求使用 const 声明那些声明后不再被修改的变量（针对 let 声明）
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    // 强制在大括号中使用一致的空格
     'object-curly-spacing': [
       2,
       'always',
       {
-        // 强制在大括号中使用一致的空格
         objectsInObjects: false // 禁止以对象元素开始或结尾的对象的花括号中有空格
       }
     ],
@@ -329,4 +352,4 @@ module.exports = {
       }
     ]
   }
-};
+}
