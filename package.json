@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": "dulinyu",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "axios": "^0.19.0",
